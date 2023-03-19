@@ -5,7 +5,7 @@ The story headline is "A Ferrety Adventure".
 The story description is "Sometimes portals lead to dead ends. Sometimes they close and lock behind you. Sometimes it's challenging to get back. Sometimes you need help. Sometimes you need ferrets.".
 The story creation year is 2019.
 The story genre is "Fantasy".
-The release number is 1.
+The release number is 2.
 After printing the banner text, say "(First-time users should type 'about'.)"
 
 [Still to do -- Check for awkward code. More testing. ]
@@ -66,7 +66,7 @@ Instead of entering when the noun is the gateway:
 		say "You push open the door.[paragraph break]";
 		now noun is open;
 	if the noun is open:
-		say "Cinnamon and Sugar turn to you as you leave. They look a little sad.[paragraph break]You successfully pass through the gateway; you have escaped!";
+		say "Cinnamon and Sugar turn to you as you leave. They look a little sad to see you go.[paragraph break]You successfully pass through the gateway; you have escaped!";
 		end the story finally saying "You win!";
 	otherwise:
 		say "You can't push the door open while it's still locked.".
@@ -302,6 +302,7 @@ Instead of pulling the dirt:
 
 Instead of looking under the dirt:
 	try searching the dirt.
+Does the player mean looking under the dirt: it is very likely.
 
 Instead of searching the dirt:
 	say "The dirt is too rough for human hands to dig into and search.";
@@ -309,7 +310,7 @@ Instead of searching the dirt:
 	stop the action.
 
 Understand "dig [something]", "dig in [something]", "dig up [something]", and "dig through [something]" as searching.
-Does the player mean searching the dirt: it is likely.
+Does the player mean searching the dirt: it is very likely.
 
 [knob]
 The knob is scenery. Understand "little twist knob", "little knob", "twist knob" and "knob" as the knob. The description of it is "It's a little twist knob made more for human hands than ferret paws.". The knob has a known-state. It is unknown.
@@ -383,6 +384,8 @@ Every turn:
 			otherwise if the active-fuzzy is Cinnamon and a random number from 1 to 10 is 1:
 				say "Cinnamon quickly climbs up the mesh on the side of the platform.";
 				now Cinnamon is on the eastern-platform;
+	if the turn count is 23 and the gateway is unknown:
+		say "[paragraph break]Perhaps it is worthwhile examining the gateway that is trapping you here?";
 	now Sugar is not busy;
 	now Cinnamon is not busy.
 
@@ -577,7 +580,7 @@ Instead of thinking:
 			if patting-trick is unknown:
 				say "Maybe you can pat them like little dogs? [run paragraph on]";
 			if feeding-trick is unknown:
-				say "You recall the wisdom of [italic type]Scooby-Doo[roman type]; if only you had something like Scooby Snacks![run paragraph on]";
+				say "You recall the wisdom of [italic type]Scooby-Doo[roman type]; if only you had something like Scooby Snacks! [run paragraph on]";
 			if kibble-dispenser is unknown:
 				say "There must be something around here for them to eat.[run paragraph on]";
 			say "[paragraph break]";
@@ -591,7 +594,7 @@ Abouting is an action applying to nothing. Understand "about" as abouting.
 Carry out abouting:
 	now Cinnamon is busy;
 	now Sugar is busy;
-	say "Gateway of the Ferrets is by Eric W. Brown, a.k.a. Feneric. It is part of the 2019 Interactive Fiction Advent Calendar and fits into the overall Planescape setting. It was written in loving memory of the [italic type]real[roman type] Cinnamon and Sugar, two fine ferrets who in life were much like they are described here. I miss them both immensely.[paragraph break]My thanks go out to Rhianon P. Brown, Michael D. Hilborn, Naomi Hinchen, and Andrew 'Zarf' Plotkin for play testing this game. Their repeated efforts to both solve things and break things helped make it better.[paragraph break]If you've not played parser-based interactive fiction before (or you get stuck) you may want to try typing 'hint'.".
+	say "Gateway of the Ferrets is by Eric W. Brown, a.k.a. Feneric. It is part of the 2019 Interactive Fiction Advent Calendar and fits into the overall Planescape setting. It was written in loving memory of the [italic type]real[roman type] Cinnamon and Sugar, two fine ferrets who in life were much like they are described here. I miss them both immensely.[paragraph break]My thanks go out to Rhianon P. Brown, Michael D. Hilborn, Naomi Hinchen, Andrew 'Zarf' Plotkin, and Brian Rushton for play testing this game. Their repeated efforts to both solve things and break things helped make it better.[paragraph break]If you've not played parser-based interactive fiction before (or you get stuck) you may want to try typing 'hint'.".
 
 Hinting is an action applying to nothing. Understand "hint" as hinting. Understand "help" as hinting.
 Carry out hinting:
@@ -603,7 +606,10 @@ Understand "lick [something]" as tasting.
 
 Understand "climb onto [something]" as entering.
 Understand "climb up [something]" as climbing.
+Understand "go up [something]" as climbing.
 Understand "climb down [something]" as down.
+Understand "go down [something]" as down.
+Understand "climb up [something]" as up.
 Does the player mean climbing the pedestal: it is very likely.
 Does the player mean climbing the wall: it is likely.
 Does the player mean climbing the chasm: it is likely.
@@ -753,7 +759,7 @@ Persuasion rule for asking a ferret to try dancing:
 	persuasion fails.
 
 Persuasion rule for asking a ferret to try climbing:
-	if the noun is the mesh or the noun is the pedestal or the noun is the eastern-platform:
+	if the noun is the mesh or the noun is the pedestal or the noun is a platform:
 		if the relationship of person asked > 2:
 			if the person asked is on the eastern-platform:
 				say "[Person asked] climbs down the thin mesh.";
@@ -761,9 +767,12 @@ Persuasion rule for asking a ferret to try climbing:
 			otherwise if the person asked is on the western-platform:
 				say "There's no way for [Person asked] to climb down from there.";
 			otherwise if the person asked is in the Ferret-Gateway:
-				say "[Person asked] climbs the thin mesh.";
-				now person asked is on eastern-platform;
-				place person asked in scope;
+				if the noun is the western-platform:
+					say "There's no way for [Person asked] to climb directly to the western platform.";
+				otherwise:
+					say "[Person asked] climbs the thin mesh to the eastern platform.";
+					now person asked is on eastern-platform;
+					place person asked in scope;
 			otherwise:
 				say "[Person asked] can't reach the mesh from where [they] is right now.";
 		otherwise:
@@ -777,6 +786,13 @@ Does the player mean asking someone to try climbing the mesh: it is very likely.
 Does the player mean asking someone to try climbing the wall: it is likely.
 Does the player mean asking someone to try climbing the chasm: it is likely.
 Does the player mean asking someone to try climbing a ferret: it is very unlikely.
+
+Understand "go to [platform]" as entering.
+Before asking a ferret (called the fuzzy) to try entering:
+	if the fuzzy is on a platform and the noun is a platform:
+		try asking the person asked to try jumping instead;
+	otherwise if the noun is a platform:
+		try asking the person asked to try climbing the noun instead.
 
 Instead of asking a ferret (called the fuzzy) to try target-jumping:
 	try asking the person asked to try jumping.
