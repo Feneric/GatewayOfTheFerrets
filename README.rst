@@ -30,6 +30,6 @@ bug-free (please let me know if you find any issues and I'll add your name
 to the play testers credits when I fix them).
 
 
-.. _Gateway of the Ferrets Saugus.net page: https://games.saugus.net/GatewayOfTheFerrets/
-.. _Gateway of the Ferrets itch.io page: https://feneric.itch.io/the-gateway-of-the-ferrets
+.. _The Gateway of the Ferrets Saugus.net page: https://games.saugus.net/GatewayOfTheFerrets/
+.. _The Gateway of the Ferrets itch.io page: https://feneric.itch.io/the-gateway-of-the-ferrets
 
